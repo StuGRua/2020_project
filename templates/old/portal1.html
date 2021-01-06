@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Portal</title>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<nav class="navbar navbar-default fixed-top navbar-light bg-faded" role="navigation"style="position:fixed;top:0;left:0;width:100%;height:50px;">
+    <div class="container-fluid"> 
+    <div class="navbar-header">
+        <a class="navbar-brand">U.N.OWEN</a>
+    </div>
+    <div>
+        <ul class="nav navbar-nav">
+            
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    {{section}}
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+					<li><a href="/home">时间线</a></li>
+                    <li><a href="/section/main">综合</a></li>
+                    <li><a href="/section/other">其他</a></li>
+                    <li><a href="/section/test">其他的其他</a></li>
+                </ul>
+			</li>
+			<!--
+			<li class="nav-item">
+				<a class="nav-link">用户名：{{result.username}}</a>
+			</li>-->
+			<li class="nav-item dropdown">
+				<a class="nav-link" href="#" class="dropdown-toggle" data-toggle="dropdown">
+					饼干：{{result.kookies}}
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li><!--
+						<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
+							获取新饼干
+						</button>-->
+						<a href="/newkookie">获取新饼干</a>
+					</li>
+				</ul>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#"class="dropdown-toggle" data-toggle="modal" data-target="#myModal" style="padding-top:0;padding-bottom:0;"><img src="\static/avatars/{{result.avatar}}.jpg" height="auto" width="50px">
+					<b class="caret"></b>
+				</a>
+				
+			</li>
+			<li class="nav-item">
+				<a class="nav-link">{{result.email}}</a>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link" href="#" class="dropdown-toggle" data-toggle="dropdown">
+					注销
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li>
+						<a href="/logout">确定注销</a>
+					</li>
+				</ul>
+			</li>
+        </ul>
+    </div>
+    </div>
+</nav>
+<!--
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+	更改头像
+</button>-->
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					更改头像
+				</h4>
+			</div>
+			<div class="modal-body">
+				{% for i in range(0,17)%}
+                <a href="/changeavatar/{{i}}"><img src="\static/avatars/{{i}}.jpg" height="100px" width="auto"></a>
+                {% endfor %}
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+<!--
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
+	获取新饼干
+</button>
+-->
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel2">
+					获取新饼干
+				</h4>
+			</div>
+			<div class="modal-body">
+                <a href="/newkookie">
+                    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+	                    点击获取新饼干
+                    </button>
+                </a>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+                <!--
+				<button type="button" class="btn btn-primary">
+					提交更改
+				</button>
+				-->
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal3" style="margin-top:50px">
+	NEW
+</button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel3">
+					MAKE NEW
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form action="/new" method="post" enctype="multipart/form-data">
+                    {{newpostform.csrf_token }}
+                    {{newpostform.title.label}}    {{newpostform.title}}<br>
+                    {{newpostform.content.label}}  {{newpostform.content}}
+					{{newpostform.section.label}}   {{newpostform.section}}<br>
+					<div class="form-group col-sm-6" >
+						<input type="file" name="pic" class="form-control btn-info">
+					</div>
+                    {{newpostform.submit}}
+                </form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+                <!--
+				<button type="button" class="btn btn-primary">
+					提交更改
+				</button>
+				-->
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+<br>
+{% for posts in allposts %}<hr>
+<a href="/viewpost/{{posts.id}}">
+    <p>ID:{{posts.id}} [板块：{{posts.section}}] {{posts.title}}</p>
+    <p> <img src="/static/avatars/{{posts.avatar}}.jpg" width="30px" height="auto">{{posts.poster}} {{posts.post_time}}</p>
+    <p>{%if posts.withpic %}
+		<img src="/static/uploads/{{posts.id}}.png" height="100px" width="auto">
+		{% endif %}{{posts.content}}</p>
+    <hr>
+</a>
+{% endfor %}
+</body>
+</html>

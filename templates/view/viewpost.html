@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+	<meta charset="utf-8">
+	<title>{{post.title}}</title>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<link href="/static/css/newnavbar.css" rel="stylesheet">
+	<script type="text/javascript" src="/static/js/md5.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+</head>
+
+<body style="margin-top:60px">
+
+	<div class="container container-fluid">
+
+
+
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#example-navbar-collapse">
+					<span class="sr-only">切换导航</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="{% if result %}/home{% endif %}{%if not result %}/{% endif %}">错位 丨 Misplace</a>
+			</div>
+			<div class="collapse navbar-collapse" id="example-navbar-collapse">
+				<ul class="nav navbar-nav">
+
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							{{post.section}}
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="/home">时间线</a></li>
+							<li><a href="/section/综合">综合</a></li>
+							<li><a href="/section/校内">校内</a></li>
+							<li><a href="/section/形势与政策">形势与政策</a></li>
+							<li><a href="/section/问询">问询</a></li>
+							<li><a href="/section/深夜">深夜</a></li>
+							<li><a href="/section/其他">其他</a></li>
+							<li><a href="/section/反馈">反馈</a></li>
+						</ul>
+					</li>
+					{% if not result %}
+					<li class="nav-item dropdown">
+						<a class="nav-link" href="#" class="dropdown-toggle" data-toggle="modal" data-target="#myModal2">
+							登陆/注册
+							<b class="caret"></b>
+						</a>
+					</li>
+
+					{% endif %}
+					{% if result %}
+					<li class="nav-item dropdown">
+						<a class="nav-link" href="#" class="dropdown-toggle" data-toggle="dropdown">
+							饼干：{{result.kookies}}
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="/newkookie">获取新饼干</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" class="dropdown-toggle" data-toggle="modal" data-target="#myModal"
+							style="padding-top:0;padding-bottom:0;"><img src="\static/avatars/{{result.avatar}}.jpg"
+								height="auto" width="50px">
+							<b class="caret"></b>
+						</a>
+
+					</li>
+					<li class="nav-item">
+						<a class="nav-link">{{result.email}}</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link" href="#" class="dropdown-toggle" data-toggle="dropdown">
+							注销
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="/logout">确定注销</a>
+							</li>
+						</ul>
+					</li>
+					{% endif %}
+				</ul>
+			</div>
+	</div>
+	</nav>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						更改头像
+					</h4>
+				</div>
+				<div class="modal-body">
+					{% for i in range(0,17)%}
+					<a href="/changeavatar/{{i}}"><img src="\static/avatars/{{i}}.jpg" height="100px" width="auto"></a>
+					{% endfor %}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-primary">
+						提交更改
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					登陆/注册
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div
+					class="col-xs-6 col-sm-6 col-md-6 col-lg-6 panel panel-primary col-md-offset-3">
+					<div class="panel-heading">
+						<h3 class="panel-title">登陆</h3>
+					</div>
+					<div class="panel-body">
+						<form class="form-horizontal" role="form" action="/login" method="post">
+							<div class="form-group">
+								<label for="name" class="col-sm-2 control-label">账号</label>
+								<div class="col-sm-10">
+
+									{{ loginform.name(size=20,class="form-control",id="name",placeholder="请输入账号") }}
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="pass" class="col-sm-2 control-label">密码</label>
+								<div class="col-sm-10">
+									{{loginform.password(size=40,type="password",id="password1",class="form-control",placeholder="请输入密码") }}
+								</div>
+								<hr>
+								{{ loginform.csrf_token }}
+								<button type="submit" class="btn btn-primary center-block  btn "
+									value="Submit" onclick="enc()">登陆</button>
+							</div>
+						</form>
+					</div>
+
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 panel panel-danger col-md-offset-3">
+					<div class="panel-heading">
+						<h3 class="panel-title">注册</h3>
+					</div>
+					<div class="panel-body">
+						<form class="form-horizontal" role="form" action="/signin" method="post">
+							<div class="form-group">
+								<label for="name" class="col-sm-2 control-label">用户名</label>
+								<div class="col-sm-10">
+									{{signinform.name(size=40,class="form-control",id="name",placeholder="用户名")}}
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="pass" class="col-sm-2 control-label">密码</label>
+								<div class="col-sm-10">
+									{{signinform.password1(size=40,type="password",class="form-control",id="res_pass",placeholder="请输入密码")}}
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="pass" class="col-sm-2 control-label">确认密码</label>
+								<div class="col-sm-10">
+									{{signinform.password2(size=40,type="password",class="form-control",id="res_pass1",placeholder="请再次输入密码")}}
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="pass" class="col-sm-2 control-label">邮箱</label>
+								<div class="col-sm-10">
+									{{signinform.email(size=40,class="form-control",id="email",placeholder="请输入邮箱")}}
+									<span id="ale" class="label label-default"></span>
+								</div>
+								<hr>
+								{{ signinform.csrf_token }}
+								<button type="submit"
+									class="btn btn-primary center-block btn btn-danger"
+									value="Submit" id="res_submit"onclick="enc_all()">注册</button>
+							</div>
+						</form>
+
+
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<p><strong>ID:{{post.id}} [板块：{{post.section}}] {{post.title}}</strong></p>
+					<p> <img src="/static/avatars/{{post.avatar}}.jpg" width="30px" height="auto">{{post.poster}}
+						<span class="badge">{{post.post_time}}</span>
+
+						{% if result.admin %}
+						<a href="/delpost/{{post.id}}">删除</a>
+						{% elif result.kookies == post.poster%}
+						<a href="/delpost/{{post.id}}">删除</a>
+						{% endif %}
+					</p>
+				</h3>
+			</div>
+			<div class="panel-body">
+				{%if post.withpic %}
+					<p><img src="/{{post.pic_route}}" height="100px" width="auto"></p>
+					{% endif %}
+				<p id="contentMain">{{post.content |safe}}</p>
+                <a id="{{post.id}}" class="btn btn-primary" href="#" data-toggle="modal" data-target="#myModal3" onclick="replyTo({{post.id}})">回复<b class="caret"></b><!--这里要做成能够按下链接后在textarea里面自动填充>>+回复的POST ID-->
+                </a>
+                <iframe src="/api/harmony" width="0px" height="0px" frameborder="0" id="encoderFrame"></iframe>
+                <button type="button" id="switcher1"onclick="headEncoderOn(0)">打开编码器</button>
+			</div>
+		</div>
+	</div>
+	{% for i in range(1,len_of_all_posts) %}
+	<hr>
+
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+
+				<h3 class="panel-title">
+					<p> <img src="/static/avatars/{{allposts[i].avatar}}.jpg" width="50px" height="auto"
+							style="">ID:{{allposts[i].id}} {{allposts[i].poster}}
+
+						<span class="badge">{{allposts[i].post_time}}</span>
+						{% if result.admin %}
+						<a href="/delpost/{{allposts[i].id}}">删除</a>
+						{% elif result.kookies == allposts[i].poster%}
+						<a href="/delpost/{{allposts[i].id}}">删除</a>
+						{% endif %}
+					</p>
+				</h3>
+			</div>
+			<div class="panel-body">
+				<p>{%if allposts[i].withpic %}
+					<img src="/{{allposts[i].pic_route}}" height="200px" width="auto">
+					{% endif %}</p>
+				<p id="content{{i}}">{{allposts[i].content | safe}}</p>
+						<a id="{{allposts[i].id}}" class="btn btn-primary" href="#" data-toggle="modal" data-target="#myModal3"onclick="replyTo({{allposts[i].id}})">回复<b class="caret"></b><!--这里要做成能够按下链接后在textarea里面自动填充>>+回复的POST ID-->
+						</a>
+						<iframe src="/api/harmony" width="0px" height="0px" frameborder="0" id="encoderFrame{{i}}">
+						</iframe>
+						<button id="switcher2{{i}}" onclick="encoderOn({{i}})">打开编码器</button>
+
+			</div>
+		</div>
+
+	</div>
+	</div>
+
+	{% endfor %}
+	{% if result %}
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="panel panel-default panel-body">
+			<form action="/comment/{{post.id}}" method="post" enctype="multipart/form-data">
+				{{form.csrf_token}}
+				{{form.content.label}} {{form.content(id="reply0",style="height:100px;")}}<br>
+				<div class="form-group col-sm-6">
+					<input type="file" name="pic" class="form-control btn-info" onclick="pic_inserted(0)" id="pic_insertion">
+				</div><br>
+				{{form.submit}}
+			</form>
+		</div>
+	</div>
+	{% else %}
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<h5><p>登陆以评论/回复</p></h5>
+	</div>
+	{% endif %}
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<a class="btn btn-default" href="/home">返回主页</a>
+	</div>
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel2">
+						回复
+					</h4>
+				</div>
+				<div class="modal-body">
+					<form action="/comment/{{post.id}}" method="post" enctype="multipart/form-data">
+						{{form.csrf_token}}
+						{{form.content.label}} {{form.content(id="reply1",style="height:100px;")}}<br>
+						<div class="form-group col-sm-6">
+							<input type="file" name="pic" class="form-control btn-info" onclick="pic_inserted(1)" id="pic_insertion">
+						</div><br>
+						{{form.submit}}
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+</body>
+<script>
+	{% if result %}
+	function checkKookie(){
+		//if({{nokookie}}==1){
+		if(1==1){
+		alert('未获得有效饼干,将不能有效发帖.请点击导航栏左侧获取饼干或咨询管理员.');
+		$("#makeNew").removeAttr("data-target");
+		}
+	};
+	{% endif %}
+	function headEncoderOn(id){
+		//alert(id);
+		$("#encoderFrame").attr("width","300px");
+		$("#encoderFrame").attr("height","200px");
+		$("#encoderFrame").attr("frameborder","1");
+		document.getElementById("switcher1").innerHTML = "关闭编码器";
+		$("#switcher1").attr("onclick","headEncoderOff()");
+		//id = "#content"+id;
+		//alert(id);
+		//alert(document.getElementById(id).innerHTML);
+		//var content =
+		//document.getElementById('encoderFrame').contentWindow.document.getElementById('encoded-area').value = content;
+		}
+	function headEncoderOff(){
+			$("#encoderFrame").attr("width","0px");
+			$("#encoderFrame").attr("height","0px");
+			$("#encoderFrame").attr("frameborder","0");
+			document.getElementById("switcher1").innerHTML = "打开编码器"
+			$("#switcher1").attr("onclick","headEncoderOn()");
+		}
+	function encoderOn(id){
+		//alert(id);
+		$("#encoderFrame"+id).attr("width","300px");
+		$("#encoderFrame"+id).attr("height","200px");
+		$("#encoderFrame"+id).attr("frameborder","1");
+		document.getElementById("switcher2"+id).innerHTML = "关闭编码器";
+		$("#switcher2"+id).attr("onclick","encoderOff("+id+")");
+		//id = "#content"+id;
+		//alert(id);
+		//alert(document.getElementById(id).innerHTML);
+		//var content =
+		//document.getElementById('encoderFrame').contentWindow.document.getElementById('encoded-area').value = content;
+		}
+	function encoderOff(id){
+			$("#encoderFrame"+id).attr("width","0px");
+			$("#encoderFrame"+id).attr("height","0px");
+			$("#encoderFrame"+id).attr("frameborder","0");
+			document.getElementById("switcher2"+id).innerHTML = "打开编码器"
+			$("#switcher2"+id).attr("onclick","encoderOn("+id+")");
+		}
+	function pic_inserted(id){
+		a = document.getElementById("reply"+id).value;
+		if(a==""){
+			document.getElementById("reply"+id).value="[图片]";
+		}
+	}
+	function replyTo(id){
+		document.getElementById("reply1").value=(">>>"+id+"|||");
+	}
+	function enc(){
+				//alert("123");
+				var password = $("#password1").val();
+				//var password = $(id).val();
+				//alert(password);
+				var passwd = hex_md5(password);//就是我们要的
+				//alert(passwd);
+				document.getElementById("password1").value=passwd;
+			}
+		function enc2(){
+			var password=$("#res_pass").val();
+			var passwd = hex_md5(password);
+			document.getElementById("res_pass").value=passwd;
+		}
+		function enc3(){
+			var password=$("#res_pass1").val();
+			var passwd = hex_md5(password);
+			document.getElementById("res_pass1").value=passwd;
+		}
+		function enc_all(){
+			var password=$("#res_pass1").val();
+			var passwd = hex_md5(password);
+			document.getElementById("res_pass1").value=passwd;
+			var password=$("#res_pass").val();
+			var passwd = hex_md5(password);
+			document.getElementById("res_pass").value=passwd;
+
+		}		</script>
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/md5.js"></script>
+</html>

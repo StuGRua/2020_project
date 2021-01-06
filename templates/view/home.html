@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>错位 丨 Misplace - home</title>
+
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/css/newnavbar.css" rel="stylesheet">
+	<link type="text/css" href="/static/css/harmony.css"rel="stylesheet">
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.3/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!--<script type="text/javascript" src="/static/js/nmb_main.js"></script>-->
+	{% if no_confirmation == '1'%}
+	<script>alert('未通过邮件确认!');</script>
+	{% endif %}
+	<script>
+		function checkKookie(){
+			if({{nokookie}}==1){
+			alert('未获得有效饼干,将不能有效发帖.请点击导航栏左侧获取饼干或咨询管理员.');
+			$("#makeNew").removeAttr("data-target");
+			}
+		}</script>
+		<script>
+		function encoderOn(){
+				$("#encoderFrame").attr("width","300px");
+				$("#encoderFrame").attr("height","200px");
+				$("#encoderFrame").attr("frameborder","1");
+			}
+		function encoderOff(){
+				$("#encoderFrame").attr("width","0px");
+				$("#encoderFrame").attr("height","0px");
+				$("#encoderFrame").attr("frameborder","0");
+			}
+	</script>
+	<script>function copyToText(){
+		var a = document.getElementById('encoderFrame').contentWindow.document.getElementById('encoded-area').value;
+		alert(a);
+		document.getElementById("post_content").value=a;
+	}
+	function pic_inserted(){
+		document.getElementById("reply1").value+="[图片]";
+	}
+	</script>
+</head>
+<body style="margin-top:0px">
+	<div class="container-fluid">
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#example-navbar-collapse">
+					<span class="sr-only">切换导航</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/home">错位 丨 Misplace</a>
+			</div>
+			<div class="collapse navbar-collapse" id="example-navbar-collapse">
+				<ul class="nav navbar-nav">
+
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							{{section}}
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="/home">时间线</a></li>
+							<li><a href="/section/综合">综合</a></li>
+							<li><a href="/section/校内">校内</a></li>
+							<li><a href="/section/形势与政策">形势与政策</a></li>
+							<li><a href="/section/问询">问询</a></li>
+							<li><a href="/section/深夜">深夜</a></li>
+							<li><a href="/section/其他">其他</a></li>
+							<li><a href="/section/反馈">反馈</a></li>
+						</ul>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link" href="#" class="dropdown-toggle" data-toggle="dropdown">
+							饼干：{{result.kookies}}
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="/newkookie">获取新饼干</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" class="dropdown-toggle" data-toggle="modal" data-target="#myModal"
+							style="padding-top:5px;padding-bottom:0;"><img src="\static/avatars/{{result.avatar}}.jpg"
+								height="45px" width="auto">
+							<b class="caret"></b>
+						</a>
+
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="notiCenter" href="#" data-toggle="modal" data-target="#myModal4">{{result.email}}<b class="caret"></b></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="makeNew" href="#" data-toggle="modal" data-target="#myModal3" onclick="checkKookie()">NEW<b class="caret"></b>
+						</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link" href="#" class="dropdown-toggle" data-toggle="dropdown">
+							注销
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="/logout">确定注销</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+	</div>
+	</nav>
+
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						更改头像
+					</h4>
+				</div>
+				<div class="modal-body">
+					{% for i in range(0,17)%}
+					<a href="/changeavatar/{{i}}"><img src="\static/avatars/{{i}}.jpg" height="100px" width="auto"></a>
+					{% endfor %}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-primary">
+						提交更改
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						通知
+					</h4>
+				</div>
+				<div class="modal-body">
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel2">
+						获取新饼干
+					</h4>
+				</div>
+				<div class="modal-body">
+					<a href="/newkookie">
+						<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+							点击获取新饼干
+						</button>
+					</a>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel3">
+						MAKE NEW
+					</h4>
+				</div>
+				<div class="modal-body">
+					<form action="/new" method="post" enctype="multipart/form-data">
+						{{newpostform.csrf_token }}
+						{{newpostform.title.label}} {{newpostform.title}}<br>
+						{{newpostform.content.label}} {{newpostform.content(id="post_content")}}
+						{{newpostform.section.label}} {{newpostform.section}}<br>
+						{{newpostform.no_show.label}} {{newpostform.no_show}}<br>
+						<div class="form-group col-sm-6">
+							<input type="file" name="pic" class="form-control btn-info">
+						</div>
+						{{newpostform.submit}}
+					</form>
+
+				<iframe src="/api/harmony" width="0px" height="0px" frameborder="0" id="encoderFrame">
+				</iframe>
+
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" onclick="encoderOn()">打开编码器</button>
+					<button type="button" class="btn btn-default" onclick="encoderOff()">关闭编码器</button>
+					<button type="button" class="btn btn-default" onclick="copyToText()"><strong>覆盖</strong>编码后的文本到输入框</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭	</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:60px;">
+
+		<div class="well well-lg">
+			<h5>公告</h5>
+			<h6>更新内容：可选的发帖时不展示在时间线上；<br>回复插图时自动在文本框内填充<br>换行成了</h6>
+			<br><!--
+			<h2>上次删库：5月31号早10：30</h2>
+			<h1>由于尚处于开发阶段，如果发现无法登陆，可能是删库了，烦请重新注册</h1>
+			<br>-->
+		</div>
+	</div>
+	<br>
+	{% for posts in topped_posts %}
+		<hr>
+
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<a href="/viewpost/{{posts.id}}">
+				<div class="panel panel-default">
+					<div class="panel-heading" style="background-color:#DCDCDC">
+
+						<h3 class="panel-title">
+
+							<p><strong>【置顶】ID:{{posts.id}} [板块：{{posts.section}}] {{posts.title}}</strong></p>
+
+
+							<p> <img src="/static/avatars/{{posts.avatar}}.jpg" width="30px"
+									height="auto">{{posts.poster}}</p>
+						</h3>
+						<span class="badge">{{posts.replies}}回复</span><span class="badge">最后更新{{posts.update_time}}</span>
+					</div>
+					<div class="panel-body">
+
+						<p>{%if posts.withpic %}
+							<img src="/{{posts.pic_route}}" height="100px" width="auto">
+							{% endif %}{{posts.content[0:100]}}</p>
+					</div>
+				</div>
+
+			</a>
+
+		</div>
+
+
+		{% endfor %}
+	{% for posts in allposts %}
+	<hr>
+
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<a href="/viewpost/{{posts.id}}" style="text-decoration:none">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+
+					<h3 class="panel-title">
+						<p><strong>ID:{{posts.id}} [板块：{{posts.section}}] {{posts.title}}</strong>
+						</p>
+							<p><img src="/static/avatars/{{posts.avatar}}.jpg" width="30px" height="auto">{{posts.poster}}</p>
+					</h3>
+					<span class="badge">{{posts.replies}}回复</span><span class="badge">最后更新{{posts.update_time}}</span>
+				</div>
+				<div class="panel-body">
+
+					<p>{%if posts.withpic %}
+						<img src="/{{posts.pic_route}}" height="100px" width="auto">
+						{% endif %}<br>{% if posts.content[97] %}{{posts.content[0:97]}}...{% endif %}{% if not posts.content[97] %}{{posts.content}}{% endif %}</p>
+				</div>
+			</div>
+
+
+		</a>
+	</div>
+
+
+	{% endfor %}
+
+</body>
+
+</html>
