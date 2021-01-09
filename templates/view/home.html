@@ -20,38 +20,12 @@
         <![endif]-->
 	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 	<!--<script type="text/javascript" src="/static/js/nmb_main.js"></script>-->
 	{% if no_confirmation == '1'%}
 	<script>alert('未通过邮件确认!');</script>
 	{% endif %}
-	<script>
-		function checkKookie(){
-			if({{nokookie}}==1){
-			alert('未获得有效饼干,将不能有效发帖.请点击导航栏左侧获取饼干或咨询管理员.');
-			$("#makeNew").removeAttr("data-target");
-			}
-		}</script>
-		<script>
-		function encoderOn(){
-				$("#encoderFrame").attr("width","300px");
-				$("#encoderFrame").attr("height","200px");
-				$("#encoderFrame").attr("frameborder","1");
-			}
-		function encoderOff(){
-				$("#encoderFrame").attr("width","0px");
-				$("#encoderFrame").attr("height","0px");
-				$("#encoderFrame").attr("frameborder","0");
-			}
-	</script>
-	<script>function copyToText(){
-		var a = document.getElementById('encoderFrame').contentWindow.document.getElementById('encoded-area').value;
-		alert(a);
-		document.getElementById("post_content").value=a;
-	}
-	function pic_inserted(){
-		document.getElementById("reply1").value+="[图片]";
-	}
-	</script>
+
 </head>
 <body style="margin-top:0px">
 	<div class="container-fluid">
@@ -125,8 +99,9 @@
 					</li>
 				</ul>
 			</div>
+        </nav>
 	</div>
-	</nav>
+
 
 	<!-- 模态框（Modal） -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -233,10 +208,29 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" onclick="encoderOn()">打开编码器</button>
-					<button type="button" class="btn btn-default" onclick="encoderOff()">关闭编码器</button>
-					<button type="button" class="btn btn-default" onclick="copyToText()"><strong>覆盖</strong>编码后的文本到输入框</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭	</button>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <button type="button" id='encode-btn' class="btn btn-default" onclick="encoderOn()">打开编码器</button>
+                        <button type="button" id='decode-btn' class="btn btn-default" onclick="encoderOff()">关闭编码器</button>
+                        <button type="button" class="btn btn-default" onclick="copyToText()"><strong>覆盖</strong>编码后的文本到输入框</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭	</button>
+                    </div>
+                    <hr>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="encoderFrame" style="display: none">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                            <label for="decoded-area">解码</label>
+                            <textarea class="form-control" id="decoded-area" placeholder="Decoded Text Here"></textarea>
+                        </div>
+
+                        <div class="btn-group-vertical col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                            <button class="btn btn-default" id='encode-btn'>Encode &gt;&gt;</button>
+                            <button class="btn btn-default" id='decode-btn'>&lt;&lt; Decode</button>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                            <label for="encoded-area">编码</label>
+                            <textarea class="form-control" id="encoded-area" placeholder="Encoded Text Here"></textarea>
+                        </div>
+                    </div>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal -->
@@ -313,5 +307,31 @@
 	{% endfor %}
 
 </body>
+<script type="text/javascript" src="/static/js/md5.js"></script>
+<script type="text/javascript" src="/static/js/harmoncer.js"></script>
+	<script>
+		function checkKookie(){
+			if({{nokookie}}==1){
+			alert('未获得有效饼干,将不能有效发帖.请点击导航栏左侧获取饼干或咨询管理员.');
+			$("#makeNew").removeAttr("data-target");
+			}
+		}</script>
+		<script>
+            function encoderOn(id){
+            $("#encoderFrame").show();
+            }
 
+	        function encoderOff(){
+            $("#encoderFrame").hide();
+		}
+	</script>
+	<script>function copyToText(){
+		var a = document.getElementById('encoded-area').value;
+		alert(a);
+		document.getElementById("post_content").value=a;
+	}
+	function pic_inserted(){
+		document.getElementById("reply1").value+="[图片]";
+	}
+	</script>
 </html>

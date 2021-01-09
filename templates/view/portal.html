@@ -153,7 +153,7 @@
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 			aria-hidden="true">
 			<div class="modal-dialog" style="">
-				<div class="modal-content">
+				<div class="modal-content col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 							&times;
@@ -163,22 +163,22 @@
 						</h4>
 					</div>
 					<div class="modal-body">
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 panel panel-primary col-md-offset-3">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-primary">
 							<div class="panel-heading">
 								<h3 class="panel-title">登陆</h3>
 							</div>
 							<div class="panel-body">
 								<form class="form-horizontal" role="form" action="/login" method="post">
 									<div class="form-group">
-										<label for="name" class="col-sm-2 control-label">账号</label>
-										<div class="col-sm-10">
+										<label for="name" class="col-sm-3 control-label">账号</label>
+										<div class="col-sm-9">
 
 											{{ loginform.name(size=20,class="form-control",id="name",placeholder="请输入账号") }}
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="pass" class="col-sm-2 control-label">密码</label>
-										<div class="col-sm-10">
+										<label for="pass" class="col-sm-3 control-label">密码</label>
+										<div class="col-sm-9">
 											{{loginform.password(size=40,type="password",class="form-control",id="password1",placeholder="请输入密码") }}
 										</div>
 										<hr>
@@ -190,34 +190,34 @@
 							</div>
 
 						</div>
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 panel panel-danger col-md-offset-3">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panel panel-danger">
 							<div class="panel-heading">
 								<h3 class="panel-title">注册</h3>
 							</div>
 							<div class="panel-body">
 								<form class="form-horizontal" role="form" action="/signin" method="post">
 									<div class="form-group">
-										<label for="name" class="col-sm-2 control-label">用户名</label>
-										<div class="col-sm-10">
+										<label for="name" class="col-sm-3 control-label">用户名</label>
+										<div class="col-sm-9">
 											{{signinform.name(size=40,class="form-control",id="name",placeholder="用户名")}}
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="pass" class="col-sm-2 control-label">密码</label>
-										<div class="col-sm-10">
+										<label for="pass" class="col-sm-3 control-label">密码</label>
+										<div class="col-sm-9">
 												密码长度需6位及以上非纯数字！
 											{{signinform.password1(size=40,type="password",class="form-control",id="res_pass",placeholder="密码长度需6位及以上非纯数字！")}}
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="pass" class="col-sm-2 control-label">确认密码</label>
-										<div class="col-sm-10">
+										<label for="pass" class="col-sm-3 control-label">确认密码</label>
+										<div class="col-sm-9">
 											{{signinform.password2(size=40,type="password",class="form-control",id="res_pass1",placeholder="请再次输入密码")}}
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="pass" class="col-sm-2 control-label">邮箱</label>
-										<div class="col-sm-10">
+										<label for="pass" class="col-sm-3 control-label">邮箱</label>
+										<div class="col-sm-9">
 											{{signinform.email(size=40,class="form-control",id="email",placeholder="请输入邮箱")}}
 											<span id="ale" class="label label-default"></span>
 										</div>
@@ -232,7 +232,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="modal-footer">
+					<div class="modal-footer col-xs-12 col-sm-12 col-md-12 col-lg-12">
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 						</button>
 					</div>

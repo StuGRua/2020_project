@@ -1,1 +1,53 @@
-<h1>ERROR: {{errormsg}}</h1>
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portal</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.bootcdn.net/ajax/libs/html5shiv/r29/html5.js"></script>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">ERROR</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 ">
+                    <div class="well well-lg">{{errormsg}}</div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 ">
+                    <a class="btn btn-default" href="/home" role="button" onclick="window.close()">返回主页</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+
+</html>

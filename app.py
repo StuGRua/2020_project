@@ -1,44 +1,17 @@
-from errors import *
-from forms import loginform, signinform, new_post_form, comment_form
+from flask import *
+from werkzeug import *
+from forms import *
 from mail_sender import *
-from models import *
-from utilities import *
-
-
-@app.route('/api/<kw>')
-def api(kw):
-    # print(kw)
-    if kw == 'timestamp':
-        return str(int((time.time())))
-    if kw == 'datetime':
-        return str(datetime.datetime.now())
-    if kw == 'harmony':
-        return render_template('test/index.html')
-    if kw == 'confirmation':
-        psw_pash = request.values.get('code')  # 现在确认码是密码HASH
-        User.query.filter(User.password_hash == psw_pash).update({'confirmed': True})
-        try:
-            db.session.commit()
-            return redirect(url_for('home', confirmation_ok=1))
-        except Exception as e:
-            db.session.rollback()
-            print(e)
-            return return500('邮件验证失败')
-    if kw == 'visited_ip':
-        result = []
-        for ip in visited_ip:
-            result.append(str('ip:' + ip + checkip(ip)))
-        return str(result)
-    if kw == 'power_fee':
-        room_id = request.values.get('id')
-        print(room_id)
-        return getfee(room_id)
-    return return404()
+from api import *
 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    # 已登录
+    if not checklogin():
+        return redirect(url_for('homepage'))
     nologin = request.values.get('nologin')
+    # 未登录
     if request.remote_addr not in visited_ip:
         visited_ip.append(request.remote_addr)
     topped_posts = posts.query.filter(posts.topped == True).order_by(-posts.update_time).all()
@@ -91,7 +64,7 @@ def newpost():
                         db.session.commit()
                     except Exception as e:
                         print(e)
-                        return return500('保存图片路径或保存图时出错')
+                        return return500('Pic saving error')
                     # print('file saved', filename)
                 except Exception as e:
                     print(e)
@@ -433,11 +406,12 @@ def signin():
         email = form.email.data
         # print(username, psw1, email)
         if psw1 != psw2:
-            print('密码与确认密码不同')
-            return redirect(url_for('home', err=1))
+            return return500('密码与确认密码不同')
+        if User.query.filter(User.email == email).first():
+            return return500('用户邮箱已被注册')
         try:
             newuser = User(username=username, password=psw1, email=email, active_ip=request.remote_addr,
-                           password_hash=md5(psw1), confirmed=False, admin=False)
+                           password_hash=md5(psw1 + str(datetime.datetime.now())), confirmed=False, admin=False)
             db.session.add(newuser)
             db.session.commit()
             session['account'] = email
