@@ -3,9 +3,9 @@
 ## 基于Flask实现的匿名论坛
 - 前端框架：Bootstrap  
 - 后端框架：Flask  
-- 开发文档：<a herf="/24-赵书彬-开源软件基础大作业.pdf"></a>
-- 测试环境见<a href="/requirements.txt">requirements.txt</a>
-- 特别鸣谢<a href="https://github.com/tzY15368">@tzY15368</a>
+- 开发文档：<a herf="/24-赵书彬-开源软件基础大作业.pdf">开发文档</a>
+- 测试环境：<a href="/requirements.txt">requirements.txt</a>
+- 特别鸣谢：<a href="https://github.com/tzY15368">@tzY15368</a>
 ----
 ## 安装
 
