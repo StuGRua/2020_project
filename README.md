@@ -33,8 +33,8 @@ pip install -r requirements.txt
 ```shell
 python app.py
 ```
-
 可以通过服务器地址在公网中访问或<http://127.0.0.1:5000>在本地访问
+
 ----
 ##  文件目录说明
 + static #静态文件
