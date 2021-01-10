@@ -37,6 +37,7 @@ python app.py
 
 ----
 ##  文件目录说明
+```text
 + static #静态文件
 + template #渲染模板
 + venv #环境
@@ -54,6 +55,8 @@ python app.py
 + requirements.txt #环境需求
 + uwsgi.ini #uwsgi配置
 + README.md #项目简介
+```
+
 
 
 
