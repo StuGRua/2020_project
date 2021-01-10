@@ -319,6 +319,12 @@
         "dl.onclick=DEC;\n" +
         "el.onclick=ENC;"+
         "<"+"/script>\n"+
+        "\t<script>function copyToText(){\n" +
+        "\t\tvar a = document.getElementById('encoded-area').value;\n" +
+        "\t\talert(a);\n" +
+        "\t\tdocument.getElementById(\"post_content\").value=a;\n" +
+        "\t}\n" +
+        "\t"+"<"+"/script>"+
         "                    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-4\">\n" +
         "                        <label for=\"decoded-area\">解码</label>\n" +
         "                        <textarea class=\"form-control\" id=\"decoded-area\" placeholder=\"Decoded Text Here\"></textarea>\n" +
@@ -342,11 +348,8 @@
             $("#encoderFrame").empty();
 		}
 	</script>
-	<script>function copyToText(){
-		var a = document.getElementById('encoded-area').value;
-		alert(a);
-		document.getElementById("post_content").value=a;
-	}
+
+    <script>
 	function pic_inserted(){
 		document.getElementById("reply1").value+="[图片]";
 	}
