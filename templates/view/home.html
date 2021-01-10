@@ -195,10 +195,10 @@
 				<div class="modal-body">
 					<form action="/new" method="post" enctype="multipart/form-data">
 						{{newpostform.csrf_token }}
-						{{newpostform.title.label}} {{newpostform.title}}<br>
-						{{newpostform.content.label}} {{newpostform.content(id="post_content")}}
-						{{newpostform.section.label}} {{newpostform.section}}<br>
-						{{newpostform.no_show.label}} {{newpostform.no_show}}<br>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">{{newpostform.title.label}} {{newpostform.title}}</div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">{{newpostform.content.label}} {{newpostform.content(id="post_content")}}</div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">{{newpostform.section.label}} {{newpostform.section}}<br></div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">{{newpostform.no_show.label}} {{newpostform.no_show}}<br></div>
 						<div class="form-group col-sm-6">
 							<input type="file" name="pic" class="form-control btn-info">
 						</div>
@@ -209,27 +209,14 @@
 
 				<div class="modal-footer">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <button type="button" id='encode-btn' class="btn btn-default" onclick="encoderOn()">打开编码器</button>
-                        <button type="button" id='decode-btn' class="btn btn-default" onclick="encoderOff()">关闭编码器</button>
+                        <button type="button"  class="btn btn-default" onclick="encoderOn()">打开编码器</button>
+                        <button type="button"  class="btn btn-default" onclick="encoderOff()">关闭编码器</button>
                         <button type="button" class="btn btn-default" onclick="copyToText()"><strong>覆盖</strong>编码后的文本到输入框</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭	</button>
                     </div>
                     <hr>
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="encoderFrame" style="display: none">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                            <label for="decoded-area">解码</label>
-                            <textarea class="form-control" id="decoded-area" placeholder="Decoded Text Here"></textarea>
-                        </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="encoderFrame">
 
-                        <div class="btn-group-vertical col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                            <button class="btn btn-default" id='encode-btn'>Encode &gt;&gt;</button>
-                            <button class="btn btn-default" id='decode-btn'>&lt;&lt; Decode</button>
-                        </div>
-
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                            <label for="encoded-area">编码</label>
-                            <textarea class="form-control" id="encoded-area" placeholder="Encoded Text Here"></textarea>
-                        </div>
                     </div>
 				</div>
 			</div><!-- /.modal-content -->
@@ -317,12 +304,42 @@
 			}
 		}</script>
 		<script>
+    var encoder_section=
+        "<script>"+
+        "var dl = document.getElementById(\"decode-btn\");\n" +
+        "var el = document.getElementById(\"encode-btn\");\n" +
+        "var ENC = function() {\n" +
+        "    document.getElementById(\"encoded-area\").value=encode(document.getElementById(\"decoded-area\").value);\n" +
+        "document.getElementById(\"decoded-area\").value=\"\";"+
+        "}\n" +
+        "var DEC = function() {\n" +
+        "    document.getElementById(\"decoded-area\").value=decode(document.getElementById(\"encoded-area\").value);\n" +
+        "    document.getElementById(\"encoded-area\").value=\"\";"+
+        "}\n" +
+        "dl.onclick=DEC;\n" +
+        "el.onclick=ENC;"+
+        "<"+"/script>\n"+
+        "                    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-4\">\n" +
+        "                        <label for=\"decoded-area\">解码</label>\n" +
+        "                        <textarea class=\"form-control\" id=\"decoded-area\" placeholder=\"Decoded Text Here\"></textarea>\n" +
+        "                    </div>\n" +
+        "\n" +
+        "                    <div class=\"btn-group-vertical col-xs-12 col-sm-12 col-md-12 col-lg-4\">\n" +
+        "                        <button class=\"btn btn-default\" id='encode-btn'>Encode &gt;&gt;</button>\n" +
+        "                        <button class=\"btn btn-default\" id='decode-btn'>&lt;&lt; Decode</button>\n" +
+        "                    </div>\n" +
+        "\n" +
+        "                    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-4\">\n" +
+        "                        <label for=\"encoded-area\">编码</label>\n" +
+        "                        <textarea class=\"form-control\" id=\"encoded-area\" placeholder=\"Encoded Text Here\"></textarea>\n" +
+        "                    </div>"
+
             function encoderOn(id){
-            $("#encoderFrame").show();
+            $("#encoderFrame").append(encoder_section);
             }
 
 	        function encoderOff(){
-            $("#encoderFrame").hide();
+            $("#encoderFrame").empty();
 		}
 	</script>
 	<script>function copyToText(){

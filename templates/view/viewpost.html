@@ -237,21 +237,8 @@
                     <a id="{{post.id}}" class="btn btn-primary" href="#" data-toggle="modal" data-target="#myModal3" onclick="replyTo({{post.id}})">回复<b class="caret"></b><!--这里要做成能够按下链接后在textarea里面自动填充>>+回复的POST ID--></a>
                 </div>
                 <hr>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6" id="encoderFrame" style="display: none">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                        <label for="decoded-area">解码</label>
-                        <textarea class="form-control" id="decoded-area" placeholder="Decoded Text Here"></textarea>
-                    </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6" id="encoderFrame">
 
-                    <div class="btn-group-vertical col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                        <button class="btn btn-default" id='encode-btn'>Encode &gt;&gt;</button>
-                        <button class="btn btn-default" id='decode-btn'>&lt;&lt; Decode</button>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                        <label for="encoded-area">编码</label>
-                        <textarea class="form-control" id="encoded-area" placeholder="Encoded Text Here"></textarea>
-                    </div>
                 </div>
                 <hr>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -290,21 +277,8 @@
                     <p id="content{{i}}">{{allposts[i].content | safe}}</p>
                     <a id="{{allposts[i].id}}" class="btn btn-primary" href="#" data-toggle="modal" data-target="#myModal3"onclick="replyTo({{allposts[i].id}})">回复<b class="caret"></b><!--这里要做成能够按下链接后在textarea里面自动填充>>+回复的POST ID--></a>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 form-group" id="encoderFrame{{i}}" style="display: none">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                        <label for="decoded-area">解码</label>
-                        <textarea class="form-control" id="decoded-area" placeholder="Decoded Text Here"></textarea>
-                    </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 form-group" id="encoderFrame{{i}}">
 
-                    <div class="btn-group-vertical col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                        <button class="btn btn-default" id='encode-btn'>Encode &gt;&gt;</button>
-                        <button class="btn btn-default" id='decode-btn'>&lt;&lt; Decode</button>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                        <label for="encoded-area">编码</label>
-                        <textarea class="form-control" id="encoded-area" placeholder="Encoded Text Here"></textarea>
-                    </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <button class="btn btn-warning" id="switcher2{{i}}" onclick="encoderOn({{i}})">打开编码器</button>
@@ -366,7 +340,7 @@
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal -->
 	</div>
-
+<script type="text/javascript" src="/static/js/harmoncer.js"></script>
 </body>
 <script>
 	{% if result %}
@@ -378,50 +352,61 @@
 		}
 	};
 	{% endif %}
+
+    var encoder_section=
+        "<script>"+
+        "var dl = document.getElementById(\"decode-btn\");\n" +
+        "var el = document.getElementById(\"encode-btn\");\n" +
+        "var ENC = function() {\n" +
+        "    document.getElementById(\"encoded-area\").value=encode(document.getElementById(\"decoded-area\").value);\n" +
+        "document.getElementById(\"decoded-area\").value=\"\";"+
+        "}\n" +
+        "var DEC = function() {\n" +
+        "    document.getElementById(\"decoded-area\").value=decode(document.getElementById(\"encoded-area\").value);\n" +
+        "    document.getElementById(\"encoded-area\").value=\"\";"+
+        "}\n" +
+        "dl.onclick=DEC;\n" +
+        "el.onclick=ENC;"+
+        "<"+"/script>\n"+
+        "                    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-4\">\n" +
+        "                        <label for=\"decoded-area\">解码</label>\n" +
+        "                        <textarea class=\"form-control\" id=\"decoded-area\" placeholder=\"Decoded Text Here\"></textarea>\n" +
+        "                    </div>\n" +
+        "\n" +
+        "                    <div class=\"btn-group-vertical col-xs-12 col-sm-12 col-md-12 col-lg-4\">\n" +
+        "                        <button class=\"btn btn-default\" id='encode-btn'>Encode &gt;&gt;</button>\n" +
+        "                        <button class=\"btn btn-default\" id='decode-btn'>&lt;&lt; Decode</button>\n" +
+        "                    </div>\n" +
+        "\n" +
+        "                    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-4\">\n" +
+        "                        <label for=\"encoded-area\">编码</label>\n" +
+        "                        <textarea class=\"form-control\" id=\"encoded-area\" placeholder=\"Encoded Text Here\"></textarea>\n" +
+        "                    </div>"
+
 	function headEncoderOn(id){
-		//alert(id);
-		//$("#encoderFrame").attr("width","300px");
-		//$("#encoderFrame").attr("height","200px");
-		//$("#encoderFrame").attr("border","1");
-        $("#encoderFrame").show();
+        $("#encoderFrame").append(encoder_section);
 		document.getElementById("switcher1").innerHTML = "关闭编码器";
 		$("#switcher1").attr("onclick","headEncoderOff()");
-		//id = "#content"+id;
-		//alert(id);
-		//alert(document.getElementById(id).innerHTML);
-		//var content =
-		//document.getElementById('encoderFrame').contentWindow.document.getElementById('encoded-area').value = content;
 		}
+
 	function headEncoderOff(){
-			//$("#encoderFrame").attr("width","0px");
-			//$("#encoderFrame").attr("height","0px");
-			//$("#encoderFrame").attr("border","0");
-            $("#encoderFrame").hide();
+            $("#encoderFrame").empty();
 			document.getElementById("switcher1").innerHTML = "打开编码器"
 			$("#switcher1").attr("onclick","headEncoderOn()");
 		}
+
 	function encoderOn(id){
-		//alert(id);
-		//$("#encoderFrame"+id).attr("width","300px");
-		//$("#encoderFrame"+id).attr("height","200px");
-		//$("#encoderFrame"+id).attr("frameborder","1");
-        $("#encoderFrame"+id).show();
+        $("#encoderFrame"+id).append(encoder_section);
 		document.getElementById("switcher2"+id).innerHTML = "关闭编码器";
 		$("#switcher2"+id).attr("onclick","encoderOff("+id+")");
-		//id = "#content"+id;
-		//alert(id);
-		//alert(document.getElementById(id).innerHTML);
-		//var content =
-		//document.getElementById('encoderFrame').contentWindow.document.getElementById('encoded-area').value = content;
 		}
+
 	function encoderOff(id){
-			//$("#encoderFrame"+id).attr("width","0px");
-			//$("#encoderFrame"+id).attr("height","0px");
-			//$("#encoderFrame"+id).attr("frameborder","0");
-            $("#encoderFrame"+id).hide();
+            $("#encoderFrame"+id).empty();
 			document.getElementById("switcher2"+id).innerHTML = "打开编码器"
 			$("#switcher2"+id).attr("onclick","encoderOn("+id+")");
 		}
+
 	function pic_inserted(id){
 		a = document.getElementById("reply"+id).value;
 		if(a==""){
